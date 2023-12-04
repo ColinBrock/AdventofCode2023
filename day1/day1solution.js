@@ -1022,7 +1022,7 @@ for (let i = 0; i < arrInput.length;i++){
 return total;
 }
 
-console.log(totalReturn());
+
 
 
 //Part 2
@@ -1038,3 +1038,51 @@ const decoder = {
     'eight' : '8',
     'nine' : '9'
 }
+
+let test = "dljxl7five6nrzfh5one";
+let test2 = "35sjcqtqpqz7fiveeight";
+
+function letterConverter(str){
+    let currentWord = '';
+    let numberConverted = '';
+    for (let i = 0; i <= str.length; i++){
+        if (currentWord >= '0' && currentWord <= '9'){
+            numberConverted += currentWord;
+            currentWord = '';
+        }
+        for (let num in decoder){
+            if(currentWord == num){
+                numberConverted += decoder[currentWord];
+                i -= currentWord.length - 1;
+                currentWord = '';
+            } else if (currentWord.length > 5){
+                i -= currentWord.length - 1;
+                currentWord = '';
+            } else if (currentWord.slice(1) == num){
+                i-= currentWord.length -2;
+                numberConverted += decoder[currentWord.slice(1)];
+                currentWord = '';
+            }
+        }
+        currentWord += str[i];
+    }
+    if(!isNaN(Number(numberConverted[0] + numberConverted[numberConverted.length-1]))){
+    return Number(numberConverted[0] + numberConverted[numberConverted.length-1]);
+    }
+    else{
+        return 0;
+    }
+}
+
+function solution(arr){
+    let total = 0;
+    for (let i = 0; i < arr.length; i++){
+        total += letterConverter(arr[i]);
+        console.log(total);
+    }
+    return total;
+}
+
+//console.log(letterConverter(test));
+//console.log(letterConverter(test2));
+console.log(solution(arrInput));
